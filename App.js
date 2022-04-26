@@ -26,6 +26,10 @@ export default function App() {
         <Stack.Screen
           options={{
             title: "My categories",
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "#aed6fc",
+            },
             headerTitleStyle: {
               fontWeight: "bold",
             },
@@ -39,6 +43,7 @@ export default function App() {
             headerTitleStyle: {
               fontWeight: "bold",
             },
+            headerTitleAlign: "center",
           }}
           name="Profile"
           component={ProfileScreen}

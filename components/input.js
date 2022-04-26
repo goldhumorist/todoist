@@ -1,7 +1,13 @@
 import { StyleSheet, TextInput } from "react-native";
 import React from "react";
 
-const Input = ({ placeholder, value, onChangeText, isSecureTextEntry }) => {
+const Input = ({
+  placeholder,
+  value,
+  onChangeText,
+  isSecureTextEntry,
+  isBorder = false,
+}) => {
   return (
     <TextInput
       placeholder={placeholder}
@@ -9,7 +15,7 @@ const Input = ({ placeholder, value, onChangeText, isSecureTextEntry }) => {
       onChangeText={(text) => {
         onChangeText(text);
       }}
-      style={styles.input}
+      style={[styles.input, isBorder ? styles.border : ""]}
       secureTextEntry={isSecureTextEntry}
     ></TextInput>
   );
@@ -24,5 +30,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+  },
+  border: {
+    width: "85%",
+    borderWidth: 1,
+    borderColor: "black",
   },
 });

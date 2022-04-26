@@ -9,6 +9,7 @@ import { auth } from "../firebase";
 const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
   const navigation = useNavigation();
 
   const handleLoginNavigation = () => {
@@ -16,17 +17,24 @@ const SignUpScreen = () => {
   };
 
   const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Registered as", user.email);
-      })
-      .catch((error) => alert(error.message));
+    if (password === confirmPassword) {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          console.log("Registered as", user.email);
+        })
+        .catch((error) => alert(error.message));
+    } else {
+      alert("Confirm the password");
+    }
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <TitleTextLogo />
       <View style={styles.welcomeContainer}>
         <Text style={styles.welcomeText}>We are happy to see you here !</Text>
@@ -44,6 +52,12 @@ const SignUpScreen = () => {
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
+          isSecureTextEntry={true}
+        />
+        <Input
+          placeholder="Confirm password"
+          value={confirmPassword}
+          onChangeText={setconfirmPassword}
           isSecureTextEntry={true}
         />
       </View>
