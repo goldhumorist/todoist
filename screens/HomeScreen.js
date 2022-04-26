@@ -1,26 +1,20 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
 
-  const handleSigOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login");
-      })
-      .catch((error) => alert(error.message));
+  const handleNavigateToProfile = () => {
+    navigation.navigate("Profile");
   };
 
   return (
     <View style={styles.container}>
-      <Text>Email: {auth.currentUser?.email}</Text>
+      <Text>Categories</Text>
 
-      <TouchableOpacity style={styles.btn} onPress={handleSigOut}>
-        <Text style={styles.btnText}>Logout</Text>
+      <TouchableOpacity style={styles.btn} onPress={handleNavigateToProfile}>
+        <Text style={styles.btnText}>To Profile</Text>
       </TouchableOpacity>
     </View>
   );
@@ -33,6 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
   },
   btn: {
     backgroundColor: "#0782F9",

@@ -1,36 +1,26 @@
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
-import React, { useState, useEffect } from "react";
-import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
-import PrimaryBtn from "../components/primaryBtn";
-import Input from "../components/input";
+import { StyleSheet, KeyboardAvoidingView, View, Text } from "react-native";
+import React, { useState } from "react";
 import TitleTextLogo from "../components/titleTextLogo";
+import Input from "../components/input";
+import PrimaryBtn from "../components/primaryBtn";
+import { useNavigation } from "@react-navigation/core";
+import { auth } from "../firebase";
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const unsubscride = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.replace("Lists");
-      }
-    });
-    return unsubscride;
-  }, []);
-
-  const handleSignUpNavigation = () => {
-    navigation.navigate("SignUp");
+  const handleLoginNavigation = () => {
+    navigation.replace("Login");
   };
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     auth
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log("Logged in as", user.email);
+        console.log("Registered as", user.email);
       })
       .catch((error) => alert(error.message));
   };
@@ -38,6 +28,11 @@ const LoginScreen = () => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
       <TitleTextLogo />
+      <View style={styles.welcomeContainer}>
+        <Text style={styles.welcomeText}>We are happy to see you here !</Text>
+        <Text style={styles.welcomeText}>Let's register</Text>
+      </View>
+
       <View style={styles.inputContainer}>
         <Input
           placeholder="Email"
@@ -52,12 +47,12 @@ const LoginScreen = () => {
           isSecureTextEntry={true}
         />
       </View>
-
       <View style={styles.btnContainer}>
-        <PrimaryBtn text="Login" handleOnPress={handleLogin} isBlue={true} />
+        <PrimaryBtn text="Sign up" handleOnPress={handleSignUp} isBlue={true} />
+
         <PrimaryBtn
-          text="Create an account"
-          handleOnPress={handleSignUpNavigation}
+          text="Already have an account?"
+          handleOnPress={handleLoginNavigation}
           isBlue={false}
         />
       </View>
@@ -65,7 +60,7 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -81,5 +76,13 @@ const styles = StyleSheet.create({
     marginTop: 40,
     justifyContent: "center",
     alignItems: "center",
+  },
+  welcomeContainer: {
+    marginBottom: 15,
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: "black",
+    textAlign: "center",
   },
 });
