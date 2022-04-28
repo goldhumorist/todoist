@@ -2,17 +2,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const Item = ({ title }) => {
+const Item = ({ title, id, deleteItem, editItem }) => {
   const [isDone, setIsDone] = useState(false);
 
   const didItem = () => {
     setIsDone(!isDone);
-  };
-  const editItem = () => {
-    alert("EDIT");
-  };
-  const deleteItem = () => {
-    alert("DELETE");
   };
 
   return (
@@ -26,14 +20,16 @@ const Item = ({ title }) => {
           />
         </TouchableOpacity>
 
-        <Text style={styles.title}>{title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
       </View>
 
       <View style={styles.modifyItemIcons}>
-        <TouchableOpacity onPress={editItem}>
+        <TouchableOpacity onPress={() => editItem(id)}>
           <Icon name="edit" size={35} color="#00d5ff" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={deleteItem}>
+        <TouchableOpacity onPress={() => deleteItem(id)}>
           <Icon name="trash" size={35} color="#ff0026" />
         </TouchableOpacity>
       </View>
@@ -61,10 +57,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   titleCheckAndText: {
-    width: "40%",
+    width: "55%",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  titleContainer: {
+    maxWidth: "100%",
   },
   modifyItemIcons: {
     width: "30%",

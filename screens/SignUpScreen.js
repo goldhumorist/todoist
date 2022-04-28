@@ -1,8 +1,8 @@
 import { StyleSheet, KeyboardAvoidingView, View, Text } from "react-native";
 import React, { useState } from "react";
-import TitleTextLogo from "../components/titleTextLogo";
-import Input from "../components/input";
-import PrimaryBtn from "../components/primaryBtn";
+import TitleTextLogo from "../src/components/titleTextLogo";
+import Input from "../src/components/input";
+import PrimaryBtn from "../src/components/primaryBtn";
 import { useNavigation } from "@react-navigation/core";
 import { auth } from "../firebase";
 

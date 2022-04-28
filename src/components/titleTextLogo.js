@@ -4,7 +4,10 @@ import React from "react";
 const TitleTextLogo = () => {
   return (
     <View style={styles.titleContainer}>
-      <Image style={styles.titleLogo} source={require("../assets/logo.png")} />
+      <Image
+        style={styles.titleLogo}
+        source={require("../../assets/logo.png")}
+      />
       <Text style={styles.titleText}>Todoist</Text>
     </View>
   );

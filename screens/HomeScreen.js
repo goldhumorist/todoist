@@ -1,46 +1,118 @@
 import {
   StyleSheet,
   View,
-  Text,
+  ScrollView,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
+  Text,
+  Button,
+  Modal,
 } from "react-native";
-import React, { useState } from "react";
-import HeaderLogo from "../components/headerLogo";
-import Footer from "../components/footer";
-import Input from "../components/input";
-import AddItemBtn from "../components/addItemBtn";
-import Item from "../components/item";
+import React, { useState, useEffect } from "react";
+import HeaderLogo from "../src/components/headerLogo";
+import Footer from "../src/components/footer";
+import Input from "../src/components/input";
+import AddItemBtn from "../src/components/addItemBtn";
+import { LogBox } from "react-native";
+import {
+  addCategoryToDB,
+  deleteCategoryFromDB,
+  getCategotiesFromDB,
+} from "../src/services/itemsFirerbase";
+import Item from "../src/components/item";
+import PopUpForm from "../src/components/popUpForm";
+
+LogBox.ignoreLogs(["Setting a timer"]);
 
 const HomeScreen = () => {
   const [lists, setLists] = useState("");
-  const [list, setList] = useState("");
+  const [categoryTitle, setCategoryTitle] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const addItemHandler = () => {
-    setLists(list);
+  useEffect(async () => {
+    if (isLoading) {
+      const categories = await getCategotiesFromDB();
+      const categoriesObj = categories.map(
+        (item) => {
+          return {
+            id: item.id,
+            title: item.data.category_title,
+          };
+        },
+        [[isLoading]]
+      );
+      setLists(categoriesObj);
+      setIsLoading(false);
+    }
+  });
+
+  const addItemHandler = async () => {
+    await addCategoryToDB(categoryTitle);
+    setCategoryTitle("");
+    setIsLoading(true);
   };
 
+  const renderItems = () => {
+    return lists.length > 0 ? (
+      lists.map((item, index) => (
+        <Item
+          key={index}
+          title={item.title}
+          id={item.id}
+          deleteItem={deleteItemHandler}
+          editItem={editItemHandler}
+        />
+      ))
+    ) : (
+      <Text style={styles.listsContainerEmpty}>No Category</Text>
+    );
+  };
+
+  const deleteItemHandler = async (id) => {
+    await deleteCategoryFromDB(id);
+    setIsLoading(true);
+  };
+  const editItemHandler = (id) => {
+    setModalVisible(true);
+  };
+  const renderModal = () => {
+    return (
+      <PopUpForm
+        modalVisibleProps={modalVisible}
+        closeModalHandler={closeModalHandler}
+      />
+    );
+  };
+
+  const closeModalHandler = () => {
+    setModalVisible(false);
+  };
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : null}
     >
       <View style={styles.mainContent}>
         <HeaderLogo />
 
-        <View style={styles.listsContainer}>
-          <Text style={styles.listsContent}>{lists ? lists : "No lists"}</Text>
-        </View>
+        {modalVisible ? renderModal() : <Text></Text>}
 
-        <Item title="Yestarday" isDone={true} />
-        <Item title="Today" />
+        <ScrollView>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="gray" />
+          ) : (
+            renderItems()
+          )}
+        </ScrollView>
       </View>
 
       <View style={styles.footerContainer}>
         <Input
           placeholder="Title of list"
-          value={list}
-          onChangeText={setList}
+          value={categoryTitle}
+          onChangeText={setCategoryTitle}
           isSecureTextEntry={false}
           isBorder={true}
         />
@@ -65,12 +137,15 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   listsContainer: {
-    justifyContent: "center",
-    alignItems: "center",
     marginTop: 15,
   },
+  listsContainerEmpty: {
+    marginTop: "20%",
+    fontSize: 20,
+    textAlign: "center",
+  },
   listsContent: {
-    fontSize: 18,
+    fontSize: 20,
   },
   footerContainer: {
     paddingHorizontal: 10,

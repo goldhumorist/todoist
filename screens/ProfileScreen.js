@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/core";
 import { auth } from "../firebase";
-import PrimaryBtn from "../components/primaryBtn";
-import SupportInfo from "../components/supportInfo";
+import PrimaryBtn from "../src/components/primaryBtn";
+import SupportInfo from "../src/components/supportInfo";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();

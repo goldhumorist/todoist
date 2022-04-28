@@ -2,9 +2,9 @@ import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import PrimaryBtn from "../components/primaryBtn";
-import Input from "../components/input";
-import TitleTextLogo from "../components/titleTextLogo";
+import PrimaryBtn from "../src/components/primaryBtn";
+import Input from "../src/components/input";
+import TitleTextLogo from "../src/components/titleTextLogo";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");

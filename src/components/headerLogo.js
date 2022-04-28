@@ -5,7 +5,10 @@ const HeaderLogo = () => {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.headerText}>Todoist</Text>
-      <Image style={styles.headerLogo} source={require("../assets/logo.png")} />
+      <Image
+        style={styles.headerLogo}
+        source={require("../../assets/logo.png")}
+      />
     </View>
   );
 };

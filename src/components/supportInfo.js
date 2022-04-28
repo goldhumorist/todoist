@@ -7,7 +7,7 @@ const SupportInfo = ({ text, onPressHandler }) => {
       <Text style={styles.supportInfoText}>{text}</Text>
       <Image
         style={styles.supportInfoArrow}
-        source={require("../assets/arrow.png")}
+        source={require("../../assets/arrow.png")}
       />
     </TouchableOpacity>
   );
