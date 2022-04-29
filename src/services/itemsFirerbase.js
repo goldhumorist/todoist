@@ -6,6 +6,7 @@ import {
   where,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
@@ -48,4 +49,13 @@ export const getCategotiesFromDB = async () => {
 };
 export const deleteCategoryFromDB = async (id) => {
   await deleteDoc(doc(db, "categories", id));
+};
+export const updateItem = async (id, newTitle) => {
+  if (newTitle.trim() !== "") {
+    const washingtonRef = doc(db, "categories", id);
+
+    await updateDoc(washingtonRef, {
+      category_title: newTitle,
+    });
+  }
 };

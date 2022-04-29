@@ -15,22 +15,24 @@ const Item = ({ title, id, deleteItem, editItem }) => {
         <TouchableOpacity onPress={didItem}>
           <Icon
             name="check-circle"
-            size={35}
+            size={30}
             color={isDone ? "#ded600" : "black"}
           />
         </TouchableOpacity>
 
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, isDone ? styles.textDone : ""]}>
+            {title}
+          </Text>
         </View>
       </View>
 
       <View style={styles.modifyItemIcons}>
         <TouchableOpacity onPress={() => editItem(id)}>
-          <Icon name="edit" size={35} color="#00d5ff" />
+          <Icon name="edit" size={30} color="#00d5ff" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => deleteItem(id)}>
-          <Icon name="trash" size={35} color="#ff0026" />
+          <Icon name="trash" size={30} color="#ff0026" />
         </TouchableOpacity>
       </View>
     </View>
@@ -66,9 +68,12 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
   },
   modifyItemIcons: {
-    width: "30%",
+    width: "33%",
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
+  },
+  textDone: {
+    textDecorationLine: "line-through",
   },
 });

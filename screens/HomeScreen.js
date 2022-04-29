@@ -6,8 +6,6 @@ import {
   Platform,
   ActivityIndicator,
   Text,
-  Button,
-  Modal,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import HeaderLogo from "../src/components/headerLogo";
@@ -19,6 +17,7 @@ import {
   addCategoryToDB,
   deleteCategoryFromDB,
   getCategotiesFromDB,
+  updateItem,
 } from "../src/services/itemsFirerbase";
 import Item from "../src/components/item";
 import PopUpForm from "../src/components/popUpForm";
@@ -30,6 +29,7 @@ const HomeScreen = () => {
   const [categoryTitle, setCategoryTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [idOfCurrentItem, setIdOfCurrentItem] = useState("");
 
   useEffect(async () => {
     if (isLoading) {
@@ -75,17 +75,25 @@ const HomeScreen = () => {
     setIsLoading(true);
   };
   const editItemHandler = (id) => {
+    setIdOfCurrentItem(id);
     setModalVisible(true);
   };
   const renderModal = () => {
     return (
       <PopUpForm
+        idOfCurrentItemForEdit={idOfCurrentItem}
         modalVisibleProps={modalVisible}
+        closeModalAndSaveHandler={closeModalAndSaveHandler}
         closeModalHandler={closeModalHandler}
       />
     );
   };
 
+  const closeModalAndSaveHandler = async (id, newTitle) => {
+    setModalVisible(false);
+    updateItem(id, newTitle);
+    setIsLoading(true);
+  };
   const closeModalHandler = () => {
     setModalVisible(false);
   };

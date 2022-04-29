@@ -11,6 +11,7 @@ const Input = ({
   return (
     <TextInput
       placeholder={placeholder}
+      placeholderTextColor="gray"
       value={value}
       onChangeText={(text) => {
         onChangeText(text);
