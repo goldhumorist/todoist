@@ -9,14 +9,14 @@ const Footer = () => {
   const handleNavigateToProfile = () => {
     navigation.navigate("Profile");
   };
-  const handleNavigateToLists = () => {
-    navigation.navigate("Lists");
+  const handleNavigateToСategories = () => {
+    navigation.navigate("Сategories");
   };
 
   return (
     <View style={styles.footerContainer}>
       <TouchableOpacity
-        onPress={handleNavigateToLists}
+        onPress={handleNavigateToСategories}
         style={styles.footerBtn}
       >
         <Icon name="list-alt" size={30} color="#0782F9" />

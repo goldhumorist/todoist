@@ -14,55 +14,59 @@ import Input from "../src/components/input";
 import AddItemBtn from "../src/components/addItemBtn";
 import { LogBox } from "react-native";
 import {
-  addCategoryToDB,
-  deleteCategoryFromDB,
-  getCategotiesFromDB,
-  updateItem,
+  addTaskToDB,
+  deleteTaskromDB,
+  getTasksFromDB,
+  updateTask,
 } from "../src/services/itemsFirerbase";
 import Item from "../src/components/item";
 import PopUpForm from "../src/components/popUpForm";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
-const HomeScreen = () => {
-  const [lists, setLists] = useState("");
-  const [categoryTitle, setCategoryTitle] = useState("");
+const TasksScreen = ({ route }) => {
+  const [listsOfTasks, setListsOfTasks] = useState("");
+  const [taskTitle, setTaskTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idOfCurrentItem, setIdOfCurrentItem] = useState("");
 
+  const { categotyId, categotyTitle } = route.params;
+
   useEffect(async () => {
     if (isLoading) {
-      const categories = await getCategotiesFromDB();
-      const categoriesObj = categories.map(
+      const tasks = await getTasksFromDB(categotyId);
+      const tasksObj = tasks.map(
         (item) => {
           return {
             id: item.id,
-            title: item.data.category_title,
+            title: item.data.task_title,
           };
         },
         [[isLoading]]
       );
-      setLists(categoriesObj);
+      setListsOfTasks(tasksObj);
       setIsLoading(false);
     }
   });
 
   const addItemHandler = async () => {
-    await addCategoryToDB(categoryTitle);
-    setCategoryTitle("");
+    console.log(taskTitle, categotyId);
+    await addTaskToDB(taskTitle, categotyId);
+    setTaskTitle("");
     setIsLoading(true);
   };
 
   const renderItems = () => {
-    return lists.length > 0 ? (
-      lists.map((item, index) => (
+    return listsOfTasks.length > 0 ? (
+      listsOfTasks.map((item, index) => (
         <Item
           key={index}
           title={item.title}
           id={item.id}
           deleteItem={deleteItemHandler}
           editItem={editItemHandler}
+          isCategoryScreen={false}
         />
       ))
     ) : (
@@ -71,7 +75,7 @@ const HomeScreen = () => {
   };
 
   const deleteItemHandler = async (id) => {
-    await deleteCategoryFromDB(id);
+    await deleteTaskromDB(id);
     setIsLoading(true);
   };
   const editItemHandler = (id) => {
@@ -91,7 +95,7 @@ const HomeScreen = () => {
 
   const closeModalAndSaveHandler = async (id, newTitle) => {
     setModalVisible(false);
-    updateItem(id, newTitle);
+    updateTask(id, newTitle);
     setIsLoading(true);
   };
   const closeModalHandler = () => {
@@ -103,7 +107,7 @@ const HomeScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
       <View style={styles.mainContent}>
-        <HeaderLogo />
+        <HeaderLogo title={categotyTitle} />
 
         {modalVisible ? renderModal() : <Text></Text>}
 
@@ -118,9 +122,9 @@ const HomeScreen = () => {
 
       <View style={styles.footerContainer}>
         <Input
-          placeholder="Title of list"
-          value={categoryTitle}
-          onChangeText={setCategoryTitle}
+          placeholder="Title of task"
+          value={taskTitle}
+          onChangeText={setTaskTitle}
           isSecureTextEntry={false}
           isBorder={true}
         />
@@ -131,7 +135,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default TasksScreen;
 
 const styles = StyleSheet.create({
   container: {

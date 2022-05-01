@@ -15,7 +15,7 @@ const LoginScreen = () => {
   useEffect(() => {
     const unsubscride = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("Lists");
+        navigation.replace("Сategories");
       }
     });
     return unsubscride;

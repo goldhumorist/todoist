@@ -1,12 +1,22 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from "@react-navigation/core";
 
-const Item = ({ title, id, deleteItem, editItem }) => {
+const Item = ({ title, id, deleteItem, editItem, isCategoryScreen }) => {
   const [isDone, setIsDone] = useState(false);
+
+  const navigation = useNavigation();
 
   const didItem = () => {
     setIsDone(!isDone);
+  };
+
+  const navigateToTasksHandler = () => {
+    navigation.navigate("Tasks", {
+      categotyId: id,
+      categotyTitle: title,
+    });
   };
 
   return (
@@ -20,11 +30,26 @@ const Item = ({ title, id, deleteItem, editItem }) => {
           />
         </TouchableOpacity>
 
-        <View style={styles.titleContainer}>
-          <Text style={[styles.title, isDone ? styles.textDone : ""]}>
-            {title}
-          </Text>
-        </View>
+        {isCategoryScreen ? (
+          <TouchableOpacity
+            style={{ marginTop: 5 }}
+            onPress={() => {
+              navigateToTasksHandler();
+            }}
+          >
+            <View style={styles.titleContainer}>
+              <Text style={[styles.title, isDone ? styles.textDone : ""]}>
+                {title}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.titleContainer}>
+            <Text style={[styles.title, isDone ? styles.textDone : ""]}>
+              {title}
+            </Text>
+          </View>
+        )}
       </View>
 
       <View style={styles.modifyItemIcons}>
