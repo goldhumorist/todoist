@@ -41,6 +41,7 @@ const TasksScreen = ({ route }) => {
           return {
             id: item.id,
             title: item.data.task_title,
+            isDone: item.data.is_done,
           };
         },
         [[isLoading]]
@@ -51,7 +52,6 @@ const TasksScreen = ({ route }) => {
   });
 
   const addItemHandler = async () => {
-    console.log(taskTitle, categotyId);
     await addTaskToDB(taskTitle, categotyId);
     setTaskTitle("");
     setIsLoading(true);
@@ -64,6 +64,7 @@ const TasksScreen = ({ route }) => {
           key={index}
           title={item.title}
           id={item.id}
+          isDoneProps={item.isDone}
           deleteItem={deleteItemHandler}
           editItem={editItemHandler}
           isCategoryScreen={false}

@@ -112,3 +112,10 @@ export const updateTask = async (id, newTitle) => {
     });
   }
 };
+export const updateItemStatus = async (id, isDone, itemType) => {
+  const washingtonRef = doc(db, itemType, id);
+
+  await updateDoc(washingtonRef, {
+    is_done: !isDone,
+  });
+};

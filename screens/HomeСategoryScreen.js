@@ -39,6 +39,7 @@ const HomeСategoryScreen = () => {
           return {
             id: item.id,
             title: item.data.category_title,
+            isDone: item.data.is_done,
           };
         },
         [[isLoading]]
@@ -61,6 +62,7 @@ const HomeСategoryScreen = () => {
           key={index}
           title={item.title}
           id={item.id}
+          isDoneProps={item.isDone}
           deleteItem={deleteItemHandler}
           editItem={editItemHandler}
           isCategoryScreen={true}

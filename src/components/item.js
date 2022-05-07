@@ -2,13 +2,22 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/core";
+import { updateItemStatus } from "../services/itemsFirerbase";
 
-const Item = ({ title, id, deleteItem, editItem, isCategoryScreen }) => {
-  const [isDone, setIsDone] = useState(false);
+const Item = ({
+  title,
+  id,
+  deleteItem,
+  editItem,
+  isDoneProps,
+  isCategoryScreen,
+}) => {
+  const [isDone, setIsDone] = useState(isDoneProps);
 
   const navigation = useNavigation();
 
   const didItem = () => {
+    updateItemStatus(id, isDone, isCategoryScreen ? "categories" : "tasks");
     setIsDone(!isDone);
   };
 
