@@ -17,7 +17,7 @@ export const addCategoryToDB = async (categoryTitle) => {
         ? categoryTitle.slice(0, 30) + "..."
         : categoryTitle;
     try {
-      const docRef = await addDoc(collection(db, "categories"), {
+      const docRef = await addDoc(collection(db, "categories"), { //crashLeetics
         category_title: categoryTitleUpd,
         is_done: false,
         created_at: Date.now(),
@@ -64,11 +64,9 @@ export const updateItem = async (id, newTitle) => {
 
 export const addTaskToDB = async (taskTitle, categoryId) => {
   if (taskTitle.trim()) {
-    const taskTitleUpd =
-      taskTitle.length > 35 ? taskTitle.slice(0, 30) + "..." : taskTitle;
     try {
       const docRef = await addDoc(collection(db, "tasks"), {
-        task_title: taskTitleUpd,
+        task_title: taskTitle,
         is_done: false,
         created_at: Date.now(),
         updated_at: Date.now(),
@@ -117,5 +115,19 @@ export const updateItemStatus = async (id, isDone, itemType) => {
 
   await updateDoc(washingtonRef, {
     is_done: !isDone,
+  });
+};
+
+export const addDescAndDeadlineToTask = async (
+  taskId,
+  description,
+  deadline
+) => {
+  const docRef = doc(db, "tasks", taskId);
+
+  await updateDoc(docRef, {
+    description: description,
+    deadline: deadline,
+    updated_at: Date.now(),
   });
 };

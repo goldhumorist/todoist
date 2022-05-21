@@ -6,6 +6,7 @@ import HomeСategoryScreen from "./screens/HomeСategoryScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import TasksScreen from "./screens/TasksScreen";
+import AdditionalInfoScreen from "./screens/AdditionalInfoScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +54,7 @@ export default function App() {
             title: "Tasks",
             headerTitleAlign: "center",
             headerStyle: {
-              backgroundColor: "#aed6fc",
+              backgroundColor: "#64b1f9",
             },
             headerTitleStyle: {
               fontWeight: "bold",
@@ -61,6 +62,20 @@ export default function App() {
           }}
           name="Tasks"
           component={TasksScreen}
+        />
+        <Stack.Screen
+          options={{
+            title: "Add some info for your task",
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "#64b1f9",
+            },
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          name="AdditionalInfo"
+          component={AdditionalInfoScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

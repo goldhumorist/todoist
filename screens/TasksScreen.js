@@ -30,6 +30,7 @@ const TasksScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [idOfCurrentItem, setIdOfCurrentItem] = useState("");
+  console.log(route.params);
 
   const { categotyId, categotyTitle } = route.params;
 

@@ -27,48 +27,65 @@ const Item = ({
       categotyTitle: title,
     });
   };
+  const navigateToAddInfoHandler = () => {
+    navigation.navigate("AdditionalInfo", {
+      taskId: id,
+    });
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleCheckAndText}>
-        <TouchableOpacity onPress={didItem}>
-          <Icon
-            name="check-circle"
-            size={30}
-            color={isDone ? "#ded600" : "black"}
-          />
-        </TouchableOpacity>
+    <View style={styles.mainContainer}>
+      <View style={styles.container}>
+        <View style={styles.titleCheckAndText}>
+          <TouchableOpacity onPress={didItem}>
+            <Icon
+              name="check-circle"
+              size={30}
+              color={isDone ? "#ded600" : "black"}
+            />
+          </TouchableOpacity>
 
-        {isCategoryScreen ? (
-          <TouchableOpacity
-            style={{ marginTop: 5 }}
-            onPress={() => {
-              navigateToTasksHandler();
-            }}
-          >
+          {isCategoryScreen ? (
+            <TouchableOpacity
+              style={{ marginTop: 5 }}
+              onPress={() => {
+                navigateToTasksHandler();
+              }}
+            >
+              <View style={styles.titleContainer}>
+                <Text style={[styles.title, isDone ? styles.textDone : ""]}>
+                  {title}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          ) : (
             <View style={styles.titleContainer}>
               <Text style={[styles.title, isDone ? styles.textDone : ""]}>
                 {title}
               </Text>
             </View>
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.titleContainer}>
-            <Text style={[styles.title, isDone ? styles.textDone : ""]}>
-              {title}
-            </Text>
-          </View>
-        )}
-      </View>
+          )}
+        </View>
 
-      <View style={styles.modifyItemIcons}>
-        <TouchableOpacity onPress={() => editItem(id)}>
-          <Icon name="edit" size={30} color="#00d5ff" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => deleteItem(id)}>
-          <Icon name="trash" size={30} color="#ff0026" />
-        </TouchableOpacity>
+        <View style={styles.modifyItemIcons}>
+          <TouchableOpacity onPress={() => editItem(id)}>
+            <Icon name="edit" size={30} color="#00d5ff" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => deleteItem(id)}>
+            <Icon name="trash" size={30} color="#ff0026" />
+          </TouchableOpacity>
+        </View>
       </View>
+      {isCategoryScreen ? (
+        <Text></Text>
+      ) : (
+        <TouchableOpacity
+          style={styles.additionalInfo}
+          onPress={() => navigateToAddInfoHandler()}
+        >
+          <Text>Add Info</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -76,14 +93,17 @@ const Item = ({
 export default Item;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    marginHorizontal: 15,
+  },
   container: {
     backgroundColor: "#F8F8F8",
     borderColor: "#a6a6a6",
     borderWidth: 1,
-    marginHorizontal: 15,
-    marginVertical: 10,
     borderRadius: 10,
-    height: 60,
+    borderBottomStartRadius: 0,
+    minHeight: 60,
+    maxHeight: 100,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
@@ -100,6 +120,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     maxWidth: "100%",
+    marginLeft: 10,
   },
   modifyItemIcons: {
     width: "33%",
@@ -109,5 +130,25 @@ const styles = StyleSheet.create({
   },
   textDone: {
     textDecorationLine: "line-through",
+  },
+  additionalInfo: {
+    alignItems: "center",
+    width: "20%",
+    height: 30,
+    borderWidth: 1,
+    borderColor: "black",
+    borderTopWidth: 0,
+    marginBottom: 10,
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+    backgroundColor: "#3398f7",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
   },
 });
