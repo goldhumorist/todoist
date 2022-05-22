@@ -11,6 +11,7 @@ const Item = ({
   editItem,
   isDoneProps,
   isCategoryScreen,
+  showInfo,
 }) => {
   const [isDone, setIsDone] = useState(isDoneProps);
 
@@ -79,12 +80,20 @@ const Item = ({
       {isCategoryScreen ? (
         <Text></Text>
       ) : (
-        <TouchableOpacity
-          style={styles.additionalInfo}
-          onPress={() => navigateToAddInfoHandler()}
-        >
-          <Text>Add Info</Text>
-        </TouchableOpacity>
+        <View style={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.additionalInfo}
+            onPress={() => navigateToAddInfoHandler()}
+          >
+            <Text>Add Info</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.additionalInfo}
+            onPress={() => showInfo(id)}
+          >
+            <Text>Show Info</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -95,6 +104,7 @@ export default Item;
 const styles = StyleSheet.create({
   mainContainer: {
     marginHorizontal: 15,
+    marginTop: 15,
   },
   container: {
     backgroundColor: "#F8F8F8",
@@ -102,6 +112,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderBottomStartRadius: 0,
+    borderBottomEndRadius: 0,
     minHeight: 60,
     maxHeight: 100,
     justifyContent: "space-between",
@@ -150,5 +161,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.34,
     shadowRadius: 6.27,
     elevation: 10,
+  },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

@@ -16,11 +16,13 @@ import { LogBox } from "react-native";
 import {
   addTaskToDB,
   deleteTaskromDB,
+  getInfoFromDB,
   getTasksFromDB,
   updateTask,
 } from "../src/services/itemsFirerbase";
 import Item from "../src/components/item";
 import PopUpForm from "../src/components/popUpForm";
+import PopUpInfo from "../src/components/popUpInfo";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -29,8 +31,8 @@ const TasksScreen = ({ route }) => {
   const [taskTitle, setTaskTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalInfoVisible, setModalInfoVisible] = useState(false);
   const [idOfCurrentItem, setIdOfCurrentItem] = useState("");
-  console.log(route.params);
 
   const { categotyId, categotyTitle } = route.params;
 
@@ -69,6 +71,7 @@ const TasksScreen = ({ route }) => {
           deleteItem={deleteItemHandler}
           editItem={editItemHandler}
           isCategoryScreen={false}
+          showInfo={showInfo}
         />
       ))
     ) : (
@@ -84,6 +87,10 @@ const TasksScreen = ({ route }) => {
     setIdOfCurrentItem(id);
     setModalVisible(true);
   };
+  const showInfo = (id) => {
+    setIdOfCurrentItem(id);
+    setModalInfoVisible(true);
+  };
   const renderModal = () => {
     return (
       <PopUpForm
@@ -91,6 +98,15 @@ const TasksScreen = ({ route }) => {
         modalVisibleProps={modalVisible}
         closeModalAndSaveHandler={closeModalAndSaveHandler}
         closeModalHandler={closeModalHandler}
+      />
+    );
+  };
+  const renderModalInfo = () => {
+    return (
+      <PopUpInfo
+        modalVisibleProps={modalInfoVisible}
+        closeModalHandler={closeInfoModalHandler}
+        id={idOfCurrentItem}
       />
     );
   };
@@ -103,6 +119,10 @@ const TasksScreen = ({ route }) => {
   const closeModalHandler = () => {
     setModalVisible(false);
   };
+
+  const closeInfoModalHandler = () => {
+    setModalInfoVisible(false);
+  };
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -112,6 +132,7 @@ const TasksScreen = ({ route }) => {
         <HeaderLogo title={categotyTitle} />
 
         {modalVisible ? renderModal() : <Text></Text>}
+        {modalInfoVisible ? renderModalInfo() : <Text></Text>}
 
         <ScrollView>
           {isLoading ? (

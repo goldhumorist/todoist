@@ -7,6 +7,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
@@ -17,7 +18,7 @@ export const addCategoryToDB = async (categoryTitle) => {
         ? categoryTitle.slice(0, 30) + "..."
         : categoryTitle;
     try {
-      const docRef = await addDoc(collection(db, "categories"), { //crashLeetics
+      const docRef = await addDoc(collection(db, "categories"), {
         category_title: categoryTitleUpd,
         is_done: false,
         created_at: Date.now(),
@@ -47,15 +48,16 @@ export const getCategotiesFromDB = async () => {
 
   return categories;
 };
+
 export const deleteCategoryFromDB = async (id) => {
   await deleteDoc(doc(db, "categories", id));
 };
 
 export const updateItem = async (id, newTitle) => {
   if (newTitle.trim() !== "") {
-    const washingtonRef = doc(db, "categories", id);
+    const docRef = doc(db, "categories", id);
 
-    await updateDoc(washingtonRef, {
+    await updateDoc(docRef, {
       category_title: newTitle,
       updated_at: Date.now(),
     });
@@ -102,18 +104,18 @@ export const deleteTaskromDB = async (id) => {
 
 export const updateTask = async (id, newTitle) => {
   if (newTitle.trim() !== "") {
-    const washingtonRef = doc(db, "tasks", id);
+    const docRef = doc(db, "tasks", id);
 
-    await updateDoc(washingtonRef, {
+    await updateDoc(docRef, {
       task_title: newTitle,
       updated_at: Date.now(),
     });
   }
 };
 export const updateItemStatus = async (id, isDone, itemType) => {
-  const washingtonRef = doc(db, itemType, id);
+  const docRef = doc(db, itemType, id);
 
-  await updateDoc(washingtonRef, {
+  await updateDoc(docRef, {
     is_done: !isDone,
   });
 };
@@ -130,4 +132,10 @@ export const addDescAndDeadlineToTask = async (
     deadline: deadline,
     updated_at: Date.now(),
   });
+};
+export const getInfoFromDB = async (id) => {
+  const docRef = doc(db, "tasks", id);
+  const docSnap = await getDoc(docRef);
+  const { description, deadline } = docSnap.data();
+  return [description, deadline];
 };
