@@ -1,7 +1,7 @@
 # Todoist
 
 Backlog
-Spis funkcjonalności: zarejestrować się, zalogować się, dodać kategorije (edytować nazwę, usuwać kategorije), dodać zadanie do kategorii (edytować nazwę, status, usuwać zadanie).
+Spis funkcjonalności: zarejestrować się, zalogować się, dodać kategorije (edytować nazwę, usuwać kategorije), dodać zadanie do kategorii (edytować nazwę, status, usuwać zadanie) + dodać dodatkową informację do zadanie - deadline i opis.
 
 Opis funkcjonalności w user stories: jako user ja
 
