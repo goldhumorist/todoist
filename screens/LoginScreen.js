@@ -9,16 +9,20 @@ import TitleTextLogo from "../src/components/titleTextLogo";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAuth, setIsAuth] = useState("");
 
   const navigation = useNavigation();
 
   useEffect(() => {
     const unsubscride = auth.onAuthStateChanged((user) => {
+      console.log("User", user);
       if (user) {
+        setIsAuth(true);
+        console.log("Categories");
         navigation.replace("Сategories");
       }
     });
-    return unsubscride;
+    // return unsubscride;
   }, []);
 
   const handleSignUpNavigation = () => {
